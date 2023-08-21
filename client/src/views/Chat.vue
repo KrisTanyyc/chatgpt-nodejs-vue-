@@ -206,16 +206,62 @@ export default {
         });
 
       await createMessage("assistant", response);
+      await createQuestion();
       scrollPage();
     }
 
-    // const sendQuestion = () => {
-    //   console.log(currentQuestion.value);
-    // };
+    const createQuestion = async () => {
+      var url = 'http://localhost:8000/createQuestion', method = 'post';
+      const postData = {
+        content: currentQuestion.value,
+      };
 
-    const openModal = () => {
+      const { response } = await fetch(url, {
+        method: method,
+        body: JSON.stringify(postData),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          return response;
+        });
+
+        console.log(response);
+    }
+
+    const createUnsolveQuestion = async () => {
+      var url = 'http://localhost:8000/createUnsolveQuestion', method = 'post';
+      const postData = {
+        content: currentQuestion.value,
+      };
+
+      const { response } = await fetch(url, {
+        method: method,
+        body: JSON.stringify(postData),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          return response;
+        });
+
+        return response;
+
+    }
+
+    const openModal = async () => {
       const modalElement = document.getElementById("exampleModal");
       const modal = new bootstrap.Modal(modalElement);
+      const currentId = await createUnsolveQuestion();
+      console.log(currentId);
       modal.show();
     
     };

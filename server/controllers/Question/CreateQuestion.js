@@ -6,8 +6,10 @@ const postAddQuestion = (req, res, next) => {
     Question.create({
         content: content
     }).then(result => {
-        console.log(result);
-        res.send('Success');
+        res.json({
+            response: result,
+            status: 'success'
+        });
     }
     ).catch(err => console.log(err));
 };
@@ -17,8 +19,10 @@ const postAddUnsolveQuestion = (req, res, next) => {
     UnsolveQuestion.create({
         content: content
     }).then(result => {
-        console.log(result);
-        res.send('Success');
+        res.json({
+            response: result,
+            status: 'success'
+        });
     }).catch(err => console.log(err));
 }
 
