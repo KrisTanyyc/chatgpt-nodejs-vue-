@@ -11,5 +11,42 @@ const getAllQuestions = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+const getQuestion = (req, res, next) => {
+    const questionId = req.params.questionId;
+    Question.findAll({
+        where: {
+            id: questionId
+        }
+    }).then(result => {
+        res.send({
+            'question': result,
+            'status': 'success'
+        })
+    }).catch(err => console.log(err));
+};
 
-export { getAllQuestions };
+const getAllUnsolveQuestions = (req, res, next) => {
+    UnsolveQuestion.findAll()
+        .then(result => {
+            res.send({
+                'question': result,
+                'status': 'success'
+            })
+        }).catch(err => console.log(err));
+};
+
+const getUnsolveQuestion = (req, res, next) => {
+    const questionId = req.params.questionId;
+    UnsolveQuestion.findAll({
+        where: {
+            id: questionId
+        }
+    }).then(result => {
+        res.send({
+            'question': result,
+            'status': 'success'
+        })
+    }).catch(err => console.log(err));
+};
+
+export { getAllQuestions, getQuestion, getAllUnsolveQuestions, getUnsolveQuestion };
