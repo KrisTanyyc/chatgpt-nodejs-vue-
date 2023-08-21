@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Chat from '../views/Chat.vue';
-import QuestionForm from '../views/QuestionForm.vue'
+import QuestionForm from '../views/QuestionForm.vue';
+import QuestionDetail from '../views/QuestionDetail.vue';
 
 const routes = [
     {
@@ -9,9 +10,15 @@ const routes = [
         component: Chat
     },
     {
-        path: '/Questions',
+        path: '/questions',
         name: 'Questions',
         component: QuestionForm
+    },
+    {
+        path: '/question/:questionId',
+        name: 'QuestionDetail',
+        component: QuestionDetail,
+        props: true
     }
 ];
 

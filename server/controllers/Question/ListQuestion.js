@@ -4,10 +4,10 @@ import UnsolveQuestion from "../../models/unsolveQuestion.js";
 const getAllQuestions = (req, res, next) => {
     Question.findAll()
         .then(result => {
-            res.send({
-                'question': result,
-                'status': 'success'
-            })
+            res.json({
+                response: result,
+                status: 'success'
+            });
         }).catch(err => console.log(err));
 };
 
@@ -18,10 +18,10 @@ const getQuestion = (req, res, next) => {
             id: questionId
         }
     }).then(result => {
-        res.send({
-            'question': result,
-            'status': 'success'
-        })
+        res.json({
+            response: result,
+            status: 'success'
+        });
     }).catch(err => console.log(err));
 };
 
