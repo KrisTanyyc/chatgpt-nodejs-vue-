@@ -120,6 +120,7 @@
                   >Message:</label
                 >
                 <textarea
+                  v-model="info"
                   rows="5"
                   class="form-control"
                   id="message-text"
@@ -136,7 +137,13 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Send message</button>
+            <button
+              @click="createInformation()"
+              type="button"
+              class="btn btn-primary"
+            >
+              Send message
+            </button>
           </div>
         </div>
       </div>
@@ -154,6 +161,8 @@ export default {
     const messageContent = ref("");
     const loading = ref(false);
     const currentQuestion = ref("");
+    const info = ref("");
+    const currentUnsolveQuestionId = ref("");
 
     const sendMessage = () => {
       if (messageContent.value == "") return;
@@ -211,7 +220,8 @@ export default {
     }
 
     const createQuestion = async () => {
-      var url = 'http://localhost:8000/createQuestion', method = 'post';
+      var url = "http://localhost:8000/createQuestion",
+        method = "post";
       const postData = {
         content: currentQuestion.value,
       };
@@ -230,11 +240,12 @@ export default {
           return response;
         });
 
-        console.log(response);
-    }
+      console.log(response);
+    };
 
     const createUnsolveQuestion = async () => {
-      var url = 'http://localhost:8000/createUnsolveQuestion', method = 'post';
+      var url = "http://localhost:8000/createUnsolveQuestion",
+        method = "post";
       const postData = {
         content: currentQuestion.value,
       };
@@ -253,9 +264,9 @@ export default {
           return response;
         });
 
-        return response;
-
-    }
+      currentUnsolveQuestionId.value = response.id;
+      return response;
+    };
 
     const openModal = async () => {
       const modalElement = document.getElementById("exampleModal");
@@ -263,7 +274,6 @@ export default {
       const currentId = await createUnsolveQuestion();
       console.log(currentId);
       modal.show();
-    
     };
 
     const closeModal = () => {
@@ -272,7 +282,40 @@ export default {
       modal.hide();
     };
 
-    return { messages, sendMessage, messageContent, loading, openModal, closeModal };
+    const createInformation = async () => {
+      var url = "http://localhost:8000/createInformations",
+        method = "post";
+        const postData = {
+        content: info.value,
+        questionId: currentUnsolveQuestionId.value
+      };
+      const { response } = await fetch(url, {
+        method: method,
+        body: JSON.stringify(postData),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          return response;
+        });
+      console.log(response);
+      closeModal();
+    };
+
+    return {
+      messages,
+      sendMessage,
+      messageContent,
+      loading,
+      openModal,
+      closeModal,
+      createInformation,
+      info,
+    };
   },
 };
 </script>
