@@ -4,6 +4,7 @@ import Questions from '../views/Questions.vue';
 import QuestionDetail from '../views/QuestionDetail.vue';
 import UnsolveQuestions from '../views/UnsolveQuestions.vue';
 import UnsolveQuestionDetail from '../views/UnsolveQuestionDetail';
+import Informations from '../views/Informations.vue'
 
 const routes = [
     {
@@ -32,6 +33,11 @@ const routes = [
         name: 'UnsolveQuestionDetail',
         component: UnsolveQuestionDetail,
         props: true
+    },
+    {
+        path: '/informations',
+        name: 'Informations',
+        component: Informations
     }
 ];
 

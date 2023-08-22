@@ -14,7 +14,7 @@ const getInformation = (req, res, next) => {
     const questionId = req.body.questionId;
     Information.findAll({
         where: {
-            id: questionId
+            unsolveQuestionId: questionId
         }
     }).then(result => {
         res.json({

@@ -19,7 +19,7 @@ router.post('/createQuestion', postAddQuestion);
 router.post('/createUnsolveQuestion', postAddUnsolveQuestion);
 
 //Information
-router.get('/listInformations',getInformation);
+router.get('/listInformations',getAllInformations);
 router.post('/createInformations', postAddInformation);
 
 export default router;
