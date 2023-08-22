@@ -28,10 +28,10 @@ const getQuestion = (req, res, next) => {
 const getAllUnsolveQuestions = (req, res, next) => {
     UnsolveQuestion.findAll()
         .then(result => {
-            res.send({
-                'question': result,
-                'status': 'success'
-            })
+            res.json({
+                response: result,
+                status: 'success'
+            });
         }).catch(err => console.log(err));
 };
 
@@ -42,10 +42,10 @@ const getUnsolveQuestion = (req, res, next) => {
             id: questionId
         }
     }).then(result => {
-        res.send({
-            'question': result,
-            'status': 'success'
-        })
+        res.json({
+            response: result,
+            status: 'success'
+        });
     }).catch(err => console.log(err));
 };
 

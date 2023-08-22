@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Chat from '../views/Chat.vue';
-import QuestionForm from '../views/QuestionForm.vue';
+import Questions from '../views/Questions.vue';
 import QuestionDetail from '../views/QuestionDetail.vue';
+import UnsolveQuestions from '../views/UnsolveQuestions.vue';
+import UnsolveQuestionDetail from '../views/UnsolveQuestionDetail';
 
 const routes = [
     {
@@ -12,12 +14,23 @@ const routes = [
     {
         path: '/questions',
         name: 'Questions',
-        component: QuestionForm
+        component: Questions
     },
     {
         path: '/question/:questionId',
         name: 'QuestionDetail',
         component: QuestionDetail,
+        props: true
+    },
+    {
+        path: '/unsolvequestions',
+        name: 'UnsolveQuestions',
+        component: UnsolveQuestions
+    },
+    {
+        path: '/unsolvequestion/:questionId',
+        name: 'UnsolveQuestionDetail',
+        component: UnsolveQuestionDetail,
         props: true
     }
 ];

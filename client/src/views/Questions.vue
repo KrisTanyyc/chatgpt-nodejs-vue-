@@ -24,7 +24,6 @@
                           <td>{{ question.content }}</td>
                           <td>
                             <a :href="'question/' + question.id" class="btn btn-primary">View</a>
-                            <a href="http://www.facebook.com"  class="btn btn-danger ms-2">Solution</a>
                           </td>
                         </tr>
                       </tbody>
