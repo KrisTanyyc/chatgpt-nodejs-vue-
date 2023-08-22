@@ -4,7 +4,9 @@ import Questions from '../views/Questions.vue';
 import QuestionDetail from '../views/QuestionDetail.vue';
 import UnsolveQuestions from '../views/UnsolveQuestions.vue';
 import UnsolveQuestionDetail from '../views/UnsolveQuestionDetail';
-import Informations from '../views/Informations.vue'
+import Informations from '../views/Informations.vue';
+import QuestionInformation from '../views/QuestionInformation.vue';
+import InformationDetail from '../views/InformationDetail.vue';
 
 const routes = [
     {
@@ -38,7 +40,19 @@ const routes = [
         path: '/informations',
         name: 'Informations',
         component: Informations
-    }
+    },
+    {
+        path: '/information/:informationId',
+        name: 'InformationDetail',
+        component: InformationDetail,
+        props: true
+    },
+    {
+        path:'/unsolvequestion/:questionId/informations',
+        name: 'QuestionInformations',
+        component: QuestionInformation,
+        props: true
+    },
 ];
 
 

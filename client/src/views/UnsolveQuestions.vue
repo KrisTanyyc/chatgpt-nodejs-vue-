@@ -24,6 +24,7 @@
                             <td>{{ question.content }}</td>
                             <td>
                               <a :href="'unsolvequestion/' + question.id" class="btn btn-primary">View</a>
+                              <a :href="'unsolvequestion/' + question.id + '/informations'" class="btn btn-primary ms-3">Solution</a>
                             </td>
                           </tr>
                         </tbody>

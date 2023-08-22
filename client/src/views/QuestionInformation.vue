@@ -23,7 +23,7 @@
                           <tr v-for="information in informations" :key="information.id">
                             <td>{{ information.content }}</td>
                             <td>
-                              <a :href="'information/' + information.id" class="btn btn-primary">View</a>
+                              <a :href="'/information/' + information.id" class="btn btn-primary">View</a>
                             </td>
                           </tr>
                         </tbody>
@@ -40,12 +40,19 @@
   </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
+
+const props = defineProps({
+  questionId: {
+    type: Number,
+    required: true,
+  },
+});
 
 const informations = ref("");
 
 const getInformation = async () => {
-  var url = "http://localhost:8000/listInformations",
+  var url = "http://localhost:8000/question/" + props.questionId + "/informations",
     method = "get";
   const { response } = await fetch(url, {
     method: method,

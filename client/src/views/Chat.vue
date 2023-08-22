@@ -279,6 +279,7 @@ export default {
     const closeModal = () => {
       const modalElement = document.getElementById("exampleModal");
       const modal = bootstrap.Modal.getInstance(modalElement);
+      info.value = '';
       modal.hide();
     };
 
@@ -303,6 +304,7 @@ export default {
           return response;
         });
       console.log(response);
+      info.value = '';
       closeModal();
     };
 
