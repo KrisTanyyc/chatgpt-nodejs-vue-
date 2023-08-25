@@ -38,4 +38,28 @@ const getInformation = (req, res, next) => {
     }).catch(err => console.log(err));
 };
 
-export { getAllInformations, getInformation, getCertainInformation };
+const test = async (req, res, next) => {
+    const information = await Information.findOne({
+        where: {
+            id: 2
+        }
+    });
+
+    if (information == null){
+        return res.json({
+            status: 'failed'
+        });
+    }
+
+    information.content = 'Updated!';
+
+    await information.save();
+
+    return res.json({
+        status: 'success'
+    });
+
+    
+}
+
+export { getAllInformations, getInformation, getCertainInformation, test };

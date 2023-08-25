@@ -3,7 +3,9 @@ import { versionOne } from "../controllers/chat.js";
 import { postAddQuestion, postAddUnsolveQuestion } from "../controllers/Question/CreateQuestion.js";
 import { getAllQuestions, getQuestion, getAllUnsolveQuestions, getUnsolveQuestion } from "../controllers/Question/ListQuestion.js"; 
 import { postAddInformation } from "../controllers/Information/CreateInformation.js";
-import { getAllInformations, getInformation, getCertainInformation } from "../controllers/Information/ListInformation.js";
+import { getAllInformations, getInformation, getCertainInformation, test } from "../controllers/Information/ListInformation.js";
+import { postUpdateInformation } from "../controllers/Information/UpdateInformation.js";
+import { deleteInformation } from "../controllers/Information/DeleteInformation.js";
 
 const router = Router();
 
@@ -23,5 +25,9 @@ router.get('/listInformations',getAllInformations);
 router.get('/information/:informationId', getCertainInformation);
 router.get('/question/:questionId/informations', getInformation);
 router.post('/createInformations', postAddInformation);
+router.post('/updateInformation/:informationId', postUpdateInformation);
+router.delete('/deleteInformation/:informationId', deleteInformation);
 
-export default router;
+
+router.get('/test',test);
+export default router;  

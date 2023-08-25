@@ -7,6 +7,8 @@ import UnsolveQuestionDetail from '../views/UnsolveQuestionDetail';
 import Informations from '../views/Informations.vue';
 import QuestionInformation from '../views/QuestionInformation.vue';
 import InformationDetail from '../views/InformationDetail.vue';
+import CreateInformation from '../views/CreateInformation.vue';
+import Test from '../views/Test.vue';
 
 const routes = [
     {
@@ -53,6 +55,16 @@ const routes = [
         component: QuestionInformation,
         props: true
     },
+    {
+        path: '/information/create',
+        name: 'CreateInformation',
+        component: CreateInformation,
+    },
+    {
+        path: '/test',
+        name: 'test',
+        component: Test
+    }
 ];
 
 

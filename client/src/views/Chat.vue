@@ -103,7 +103,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Information</h5>
             <button
               @click="closeModal()"
               type="button"
@@ -117,7 +117,7 @@
             <form>
               <div class="form-group">
                 <label for="message-text" class="col-form-label"
-                  >Message:</label
+                  >Information:</label
                 >
                 <textarea
                   v-model="info"
@@ -142,7 +142,7 @@
               type="button"
               class="btn btn-primary"
             >
-              Send message
+              Submit
             </button>
           </div>
         </div>

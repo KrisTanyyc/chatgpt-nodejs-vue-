@@ -1,34 +1,43 @@
 <template>
-    <section class="intro pt-3">
-      <div class="bg-image h-100" style="background-color: #f5f7fa">
-        <div class="mask d-flex align-items-center h-100">
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-body p-0">
-                    <div
-                      class="table-responsive table-scroll"
-                      data-mdb-perfect-scrollbar="true"
-                      style="position: relative; height: 500px"
-                    >
-                      <table class="table table-striped mb-0">
-                        <thead style="background-color: #002d72">
-                          <tr>
-                            <th scope="col">Information</th>
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="information in informations" :key="information.id">
-                            <td>{{ information.content }}</td>
-                            <td>
-                              <a :href="'/information/' + information.id" class="btn btn-primary">View</a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+  <section class="intro pt-3">
+    <div class="bg-image h-100" style="background-color: #f5f7fa">
+      <div class="mask d-flex align-items-center h-100">
+        <div class="container">
+          <div class="d-flex justify-content-end my-3">
+            <a :href="'/information/create?jobid=' + props.questionId " class="btn btn-primary">create</a>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body p-0">
+                  <div
+                    class="table-responsive table-scroll"
+                    data-mdb-perfect-scrollbar="true"
+                    style="position: relative; height: 500px"
+                  >
+                    <table class="table table-striped mb-0">
+                      <thead style="background-color: #002d72">
+                        <tr>
+                          <th scope="col">Information</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="information in informations"
+                          :key="information.id"
+                        >
+                          <td>{{ information.content }}</td>
+                          <td>
+                            <a
+                              :href="'/information/' + information.id"
+                              class="btn btn-primary"
+                              >View</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -36,8 +45,9 @@
           </div>
         </div>
       </div>
-    </section>
-  </template>
+    </div>
+  </section>
+</template>
 
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
@@ -52,7 +62,8 @@ const props = defineProps({
 const informations = ref("");
 
 const getInformation = async () => {
-  var url = "http://localhost:8000/question/" + props.questionId + "/informations",
+  var url =
+      "http://localhost:8000/question/" + props.questionId + "/informations",
     method = "get";
   const { response } = await fetch(url, {
     method: method,
@@ -71,6 +82,7 @@ const getInformation = async () => {
   informations.value = response;
   console.log(informations.value);
 };
+
 
 onMounted(() => {
   getInformation();
@@ -108,6 +120,4 @@ thead {
   top: 0;
   position: sticky;
 }
-
-
 </style>
