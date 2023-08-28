@@ -25,6 +25,16 @@ const getQuestion = (req, res, next) => {
     }).catch(err => console.log(err));
 };
 
+const getQuestionAmount = (req, res, next) => {
+    Question.count()
+    .then((result) => {
+        res.json({
+            amount: result,
+            status: 'success'
+        });
+    }).catch(err => console.log(err));
+};
+
 const getAllUnsolveQuestions = (req, res, next) => {
     UnsolveQuestion.findAll()
         .then(result => {
@@ -49,4 +59,4 @@ const getUnsolveQuestion = (req, res, next) => {
     }).catch(err => console.log(err));
 };
 
-export { getAllQuestions, getQuestion, getAllUnsolveQuestions, getUnsolveQuestion };
+export { getAllQuestions, getQuestion, getAllUnsolveQuestions, getUnsolveQuestion, getQuestionAmount };

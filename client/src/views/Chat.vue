@@ -1,159 +1,145 @@
 <template>
-  <section id="chatBody" style="background-color: white">
-    <div class="container py-5">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-8 col-lg-6 col-xl-4">
-          <div class="card" id="chat1" style="border-radius: 15px">
-            <div
-              class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
-              style="
-                border-top-left-radius: 15px;
-                border-top-right-radius: 15px;
-              "
-            >
-              <i class="fas fa-angle-left"></i>
-              <p class="mb-0 fw-bold">Live chat</p>
-              <i class="fas fa-times"></i>
-            </div>
-            <div
-              class="card-body"
-              v-for="message in messages"
-              :key="message.id"
-            >
-              <div
-                class="d-flex flex-row justify-content-start mb-4"
-                v-if="message.role === 'assistant'"
-              >
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                  alt="avatar 1"
-                  style="width: 45px; height: 100%"
-                />
-                <div
-                  class="p-3 ms-3"
-                  style="
-                    border-radius: 15px;
-                    background-color: rgba(57, 192, 237, 0.2);
-                  "
-                >
-                  <p class="small mb-0">{{ message.content }}</p>
-                </div>
-              </div>
-
-              <div
-                class="d-flex flex-row justify-content-start mb-4"
-                v-if="message.role === 'assistant'"
-              >
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                  alt="avatar 1"
-                  style="width: 45px; height: 100%"
-                />
-                <div
-                  class="p-3 ms-3"
-                  style="
-                    border-radius: 15px;
-                    background-color: rgba(57, 192, 237, 0.2);
-                  "
-                >
-                  <p class="small mb-0">
-                    Are you satisfied with this answer?
-                    <span><button>✔</button></span>
-                    <span
-                      ><button @click="openModal()" class="text-danger">
-                        ✖
-                      </button></span
-                    >
-                  </p>
-                </div>
-              </div>
-
-              <div class="d-flex flex-row justify-content-end mb-4" v-else>
-                <div
-                  class="p-3 me-3 border"
-                  style="border-radius: 15px; background-color: #fbfbfb"
-                >
-                  <p class="small mb-0">{{ message.content }}</p>
-                </div>
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
-                  alt="avatar 1"
-                  style="width: 45px; height: 100%"
-                />
-              </div>
-            </div>
-            <div class="form-outline p-3">
-              <input
-                v-model="messageContent"
-                class="bg-white mt-3 border border-dark text-dark"
-              />
-              <button
-                @click="sendMessage()"
+  <body>
+    <div class="flex h-screen flex-col bg-gray-100 mx-5">
+      <div class="bg-gradient-to-r from-blue-500 to-purple-500 py-4">
+        <h1 class="text-center text-2xl font-bold text-white">
+          Live Chat
+        </h1>
+      </div>
+      <div class="flex-grow overflow-y-auto" id="chat-app">
+        <div
+          class="flex flex-col space-y-2 p-4"
+          v-for="message in messages"
+          :key="message.id"
+        >
+          <!-- Individual chat message -->
+          <div
+            class="flex items-center self-start rounded-xl rounded-tl bg-gray-300 py-2 px-3"
+            v-if="message.role === 'assistant'"
+          >
+            <p>{{ message.content }}</p>
+          </div>
+          <div
+            class="flex items-center self-start rounded-xl rounded-tl bg-gray-300 py-2 px-3"
+            v-if="message.role === 'assistant'"
+          >
+            <p>Are you satisfied with this answer?</p>
+            <span><button>✔</button></span>
+            <span
+              ><button
+                data-modal-target="defaultModal"
+                data-modal-toggle="defaultModal"
+                class="btn text-red-600"
                 type="button"
-                class="mt-2 btn btn-info btn-rounded float-end"
+                @click="openModal"
               >
-                Send
-              </button>
-            </div>
+                ✖
+              </button></span
+            >
+          </div>
+          <div
+            class="flex items-center self-end rounded-xl rounded-tr bg-blue-500 py-2 px-3 text-white"
+            v-else
+          >
+            <p>{{ message.content }}</p>
           </div>
         </div>
       </div>
+      <div class="flex items-center p-4">
+        <input
+          type="text"
+          placeholder="Type your message..."
+          class="w-full rounded-lg border border-gray-300 px-4 py-2"
+          v-model="messageContent"
+        />
+        <button
+          class="ml-2 rounded-lg bg-blue-500 px-4 py-2 text-white"
+          @click="sendMessage()"
+        >
+          Send
+        </button>
+      </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Information</h5>
+    <div
+      id="defaultModal"
+      data-modal-target="defaultModal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <!-- Modal header -->
+          <div
+            class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+          >
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Information
+            </h3>
             <button
-              @click="closeModal()"
               type="button"
-              class="close"
-              data-dismiss="modal"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="defaultModal"
+              @click="closeModal"
             >
-              <span>&times;</span>
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label"
-                  >Information:</label
-                >
-                <textarea
-                  v-model="info"
-                  rows="5"
-                  class="form-control"
-                  id="message-text"
-                ></textarea>
-              </div>
-            </form>
+          <!-- Modal body -->
+          <div class="p-6 space-y-6">
+            <textarea
+              class="text-base leading-relaxed text-gray-500 dark:text-gray-400"
+              rows="5"
+              cols="70"
+            ></textarea>
           </div>
-          <div class="modal-footer">
+          <!-- Modal footer -->
+          <div
+            class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
+          >
             <button
-              @click="closeModal()"
+              data-modal-hide="defaultModal"
               type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              @click="createInformation()"
-              type="button"
-              class="btn btn-primary"
-            >
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              @click="createInformation"
+              >
               Submit
             </button>
+            <button
+              @click="closeModal"
+              data-modal-hide="defaultModal"
+              type="button"
+              class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </body>
 </template>
-  
-  <script>
+
+
+<script>
 import { ref } from "vue";
-import * as bootstrap from "bootstrap";
+import { Modal } from "flowbite";
 export default {
   name: "ChatPage",
   setup() {
@@ -164,6 +150,7 @@ export default {
     const info = ref("");
     const currentUnsolveQuestionId = ref("");
 
+
     const sendMessage = () => {
       if (messageContent.value == "") return;
       createMessage("user", messageContent.value);
@@ -171,6 +158,38 @@ export default {
       getResponse(messageContent.value);
       messageContent.value = "";
       loading.value = true;
+    };
+
+    const options = {
+      backdrop: 'static',
+      backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+      closable: true,
+      onHide: () => {
+          console.log('modal is hidden');
+          options.backdropClasses = ''
+      },
+      onShow: () => {
+          console.log('modal is shown');
+      },
+      onToggle: () => {
+          console.log('modal has been toggled');
+      }
+    }
+
+    const openModal = async () => {
+      const $targetEl = document.getElementById('defaultModal');
+      const modal = new Modal($targetEl, options);
+      const currentId = await createUnsolveQuestion();
+      console.log(currentId);
+      modal.show()
+    };
+
+    const closeModal = () => {
+      const $targetEl = document.getElementById('defaultModal');
+      const backdropElement = document.querySelector('.bg-gray-900');
+      backdropElement.classList.remove('fixed');
+      const modal = new Modal($targetEl, options);
+      modal.hide()
     };
 
     const createMessage = async (role, message) => {
@@ -187,9 +206,10 @@ export default {
     };
 
     const scrollPage = () => {
-      const chatBodyElement = document.getElementById("app");
+      const chatBodyElement = document.getElementById("chat-app");
       if (chatBodyElement) {
-        window.scroll(0, 10000000000);
+        const scrollHeight = chatBodyElement.scrollHeight;
+        chatBodyElement.scrollTo(0, scrollHeight);
       }
     };
 
@@ -268,27 +288,12 @@ export default {
       return response;
     };
 
-    const openModal = async () => {
-      const modalElement = document.getElementById("exampleModal");
-      const modal = new bootstrap.Modal(modalElement);
-      const currentId = await createUnsolveQuestion();
-      console.log(currentId);
-      modal.show();
-    };
-
-    const closeModal = () => {
-      const modalElement = document.getElementById("exampleModal");
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      info.value = '';
-      modal.hide();
-    };
-
     const createInformation = async () => {
       var url = "http://localhost:8000/createInformations",
         method = "post";
-        const postData = {
+      const postData = {
         content: info.value,
-        questionId: currentUnsolveQuestionId.value
+        questionId: currentUnsolveQuestionId.value,
       };
       const { response } = await fetch(url, {
         method: method,
@@ -304,18 +309,21 @@ export default {
           return response;
         });
       console.log(response);
-      info.value = '';
+      info.value = "";
       closeModal();
     };
 
+    
+
+    
     return {
       messages,
       sendMessage,
-      messageContent,
-      loading,
+      createInformation,
       openModal,
       closeModal,
-      createInformation,
+      messageContent,
+      loading,
       info,
     };
   },
