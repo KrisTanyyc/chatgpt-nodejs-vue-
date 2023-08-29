@@ -1,53 +1,36 @@
 <template>
-  <section class="intro pt-3">
-    <div class="bg-image h-100" style="background-color: #f5f7fa">
-      <div class="d-flex flex-row-reverse pe-5 pt-3 mb-3">
-        <a href="/information/create" class="btn btn-primary">Create</a>
-      </div>
-      <div class="mask d-flex align-items-center h-100">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body p-0">
-                  <div
-                    class="table-responsive table-scroll"
-                    data-mdb-perfect-scrollbar="true"
-                    style="position: relative; height: 500px"
-                  >
-                    <table class="table table-striped mb-0">
-                      <thead style="background-color: #002d72">
-                        <tr>
-                          <th scope="col">Information</th>
-                          <th scope="col">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="information in informations"
-                          :key="information.id"
-                        >
-                          <td>{{ information.content }}</td>
-                          <td>
-                            <a
-                              :href="'information/' + information.id"
-                              class="btn btn-primary"
-                              >View</a
-                            >
-                            <button class="btn btn-danger ms-3" @click="deleteInformation(information.id)">Delete</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-2">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead
+        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+      >
+        <tr>
+          <th scope="col" class="px-6 py-3 text-black">Informations</th>
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Edit</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="information in informations" :key="information.id">
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+        {{ information.content }}
+          </th>
+          <td class="px-6 py-4 text-right">
+            <a
+              :href="'/information/' + information.id"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >View</a
+            >
+            <button class="btn text-red-600 ms-3" @click="deleteInformation(information.id)">Delete</button>
+          </td>
+        </tr>        
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script setup>

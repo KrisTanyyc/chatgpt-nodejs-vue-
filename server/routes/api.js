@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { versionOne } from "../controllers/chat.js";
+import { versionOne, versionTwo } from "../controllers/chat.js";
 import { postAddQuestion, postAddUnsolveQuestion } from "../controllers/Question/CreateQuestion.js";
 import { getAllQuestions, getQuestion, getQuestionAmount, getAllUnsolveQuestions, getUnsolveQuestion } from "../controllers/Question/ListQuestion.js"; 
 import { postAddInformation } from "../controllers/Information/CreateInformation.js";

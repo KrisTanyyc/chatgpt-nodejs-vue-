@@ -65,7 +65,8 @@
       data-modal-target="defaultModal"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      :class="classOfModal"
     >
       <div class="relative w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -104,6 +105,7 @@
           <!-- Modal body -->
           <div class="p-6 space-y-6">
             <textarea
+            v-model="info"
               class="text-base leading-relaxed text-gray-500 dark:text-gray-400"
               rows="5"
               cols="70"
@@ -139,7 +141,6 @@
 
 <script>
 import { ref } from "vue";
-import { Modal } from "flowbite";
 export default {
   name: "ChatPage",
   setup() {
@@ -149,6 +150,7 @@ export default {
     const currentQuestion = ref("");
     const info = ref("");
     const currentUnsolveQuestionId = ref("");
+    const classOfModal = ref('hidden');
 
 
     const sendMessage = () => {
@@ -160,36 +162,16 @@ export default {
       loading.value = true;
     };
 
-    const options = {
-      backdrop: 'static',
-      backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
-      closable: true,
-      onHide: () => {
-          console.log('modal is hidden');
-          options.backdropClasses = ''
-      },
-      onShow: () => {
-          console.log('modal is shown');
-      },
-      onToggle: () => {
-          console.log('modal has been toggled');
-      }
-    }
 
     const openModal = async () => {
-      const $targetEl = document.getElementById('defaultModal');
-      const modal = new Modal($targetEl, options);
+      classOfModal.value = 'block';
       const currentId = await createUnsolveQuestion();
       console.log(currentId);
-      modal.show()
+    
     };
 
     const closeModal = () => {
-      const $targetEl = document.getElementById('defaultModal');
-      const backdropElement = document.querySelector('.bg-gray-900');
-      backdropElement.classList.remove('fixed');
-      const modal = new Modal($targetEl, options);
-      modal.hide()
+      classOfModal.value = 'hidden';
     };
 
     const createMessage = async (role, message) => {
@@ -322,6 +304,7 @@ export default {
       createInformation,
       openModal,
       closeModal,
+      classOfModal,
       messageContent,
       loading,
       info,

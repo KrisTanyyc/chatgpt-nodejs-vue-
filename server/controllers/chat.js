@@ -1,11 +1,9 @@
-import { TextLoader } from 'langchain/document_loaders/fs/text';
-import { CharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { FaissStore } from 'langchain/vectorstores/faiss'
 import { RetrievalQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 
-const versionOne =  async (req, res) => {
+const versionOne = async (req, res) => {
     const prompt = [{
         'role': 'system',
         'content': `
@@ -28,16 +26,17 @@ const versionOne =  async (req, res) => {
 
 
 const versionTwo = async (req, res) => {
-    const loader = new TextLoader('-abc.txt')
+    
+    // const loader = new TextLoader('output.txt')
     const { messages } = req.body;
-    const documents = await loader.load()
+    // const documents = await loader.load()
     const directory = 'D:/Github/chatgpt/server/faiss_index_react'
-    const text_splitter = new CharacterTextSplitter({
-        chunkSize: 1000, chunkOverlap: 30, separator: '\n'
-    })
-    const docs = await text_splitter.splitDocuments(documents)  
+    // const text_splitter = new CharacterTextSplitter({
+    //     chunkSize: 1000, chunkOverlap: 30, separator: '\n'
+    // })
+    // const docs = await text_splitter.splitDocuments(documents)
     const embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+        openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
     });
     // const vectorstore = await FaissStore.fromDocuments(docs, embeddings)
     // await vectorstore.save(directory)
@@ -45,7 +44,7 @@ const versionTwo = async (req, res) => {
     const new_vectorstore = await FaissStore.load(directory, embeddings)
 
     const model = new ChatOpenAI({
-        openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+        openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
     });
 
     const vectorStoreRetriver = new_vectorstore.asRetriever()

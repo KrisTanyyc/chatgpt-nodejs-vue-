@@ -2,12 +2,12 @@ import Information from "../../models/information.js";
 
 const getAllInformations = (req, res, next) => {
     Information.findAll()
-    .then(result => {
-        res.json({
-            response: result,
-            status: 'success'
-        });
-    }).catch(err => console.log(err));
+        .then(result => {
+            res.json({
+                response: result,
+                status: 'success'
+            });
+        }).catch(err => console.log(err));
 };
 
 const getCertainInformation = (req, res, next) => {
@@ -45,7 +45,7 @@ const test = async (req, res, next) => {
         }
     });
 
-    if (information == null){
+    if (information == null) {
         return res.json({
             status: 'failed'
         });
@@ -59,7 +59,7 @@ const test = async (req, res, next) => {
         status: 'success'
     });
 
-    
+
 }
 
 export { getAllInformations, getInformation, getCertainInformation, test };

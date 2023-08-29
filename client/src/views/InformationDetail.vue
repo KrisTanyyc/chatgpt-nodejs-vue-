@@ -1,25 +1,32 @@
 <template>
   <section>
     <div
-      class="d-flex justify-content-center"
-      style="width: 100%; height: 400px"
+      class="d-flex justify-content-center mx-5"
     >
+      <label
+        for="message"
+        class="block mb-2 text-xl font-medium text-gray-900 dark:text-white"
+        >Information</label
+      >
       <textarea
-        rows="5"
+        id="message"
+        rows="10"
         cols="100"
+        class="block p-2.5 w-4/5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Leave a comment..."
         :disabled="disabled"
         v-model="information"
       ></textarea>
-    </div>
-    <div class="d-flex justify-content-end me-5 pt-3">
-      <button class="btn btn-primary" @click="editEnable()">Edit</button>
-      <button
-        class="btn btn-primary ms-3"
+      <div class="mt-5 ml-auto">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" @click="editEnable()">Edit</button>  
+        <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-5"
         :disabled="disabled"
         @click="updateInformation()"
       >
         Submit
       </button>
+      </div>
     </div>
   </section>
 </template>
