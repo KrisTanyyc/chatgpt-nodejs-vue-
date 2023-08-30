@@ -1,6 +1,6 @@
 <template>
-  <body>
-    <div class="flex h-screen flex-col bg-gray-100 mx-5">
+  <body class="flex h-screen flex-col">
+    <div class="flex flex-col bg-gray-100 mx-60" style="height: 90%;">
       <div class="bg-gradient-to-r from-blue-500 to-purple-500 py-4">
         <h1 class="text-center text-2xl font-bold text-white">Live Chat</h1>
       </div>

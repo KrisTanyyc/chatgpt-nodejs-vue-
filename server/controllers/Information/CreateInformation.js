@@ -45,7 +45,7 @@ const postAddInformation = async (req, res, next) => {
         });
         const docs = await text_splitter.splitDocuments(documents);
         const embeddings = new OpenAIEmbeddings({
-            openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+            openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
         });
 
         const vectorstore = await FaissStore.fromDocuments(docs, embeddings);
@@ -86,7 +86,7 @@ const postAddInformation = async (req, res, next) => {
         });
         const docs = await text_splitter.splitDocuments(documents);
         const embeddings = new OpenAIEmbeddings({
-            openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+            openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
         });
         const vectorstore = await FaissStore.fromDocuments(docs, embeddings);
         await vectorstore.save(directory);
