@@ -1,8 +1,11 @@
 <template>
   <body class="flex h-screen flex-col">
-    <div class="flex flex-col bg-gray-100 mx-60" style="height: 90%;">
+    <div class="flex flex-col bg-gray-100 mx-60" style="height: 90%">
       <div class="bg-gradient-to-r from-blue-500 to-purple-500 py-4">
         <h1 class="text-center text-2xl font-bold text-white">Live Chat</h1>
+        <h2 class="text-right text-xl font-bold text-white mr-3">
+          Balance: {{ (5 - oldUsage).toFixed(2) }}
+        </h2>
       </div>
       <div class="flex-grow overflow-y-auto" id="chat-app">
         <div
@@ -16,6 +19,12 @@
             v-if="message.role === 'assistant'"
           >
             <p>{{ message.content }}</p>
+          </div>
+          <div
+            class="flex items-center self-start rounded-xl rounded-tl bg-gray-300 py-2 px-3"
+            v-if="message.role === 'assistant'"
+          >
+            <p>{{ message.cost }}</p>
           </div>
           <div
             class="flex items-center self-start rounded-xl rounded-tl bg-gray-300 py-2 px-3"
@@ -61,6 +70,12 @@
           @click="sendMessage()"
         >
           Send
+        </button>
+        <button
+          class="ml-2 rounded-lg bg-blue-500 px-4 py-2 text-white"
+          @click="getBalance()"
+        >
+          Test
         </button>
       </div>
     </div>
@@ -163,7 +178,7 @@
 
 
 <script>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 export default {
   name: "ChatPage",
   setup() {
@@ -175,6 +190,11 @@ export default {
     const currentUnsolveQuestionId = ref("");
     const classOfModal = ref("hidden");
     const loadingType = ref(false);
+    const balance = ref(0);
+    const oldUsage = ref(0);
+    var sessionKey = "";
+    var bearerToken =
+      "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJjaGlueWVlLnRhbkB5eWNhZHZpc29ycy5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZX0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJhdXRoMHw2NGM3MWMzOWRjYzVmYzRlYjk2NzY2ODgiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjkzMzgxNTI0LCJleHAiOjE2OTQ1OTExMjQsImF6cCI6IkRSaXZzbm0yTXU0MlQzS09wcWR0d0IzTll2aUhZendEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.hGvqCecIrgZ6LZa3xDHbVtHZsvrgy3_MRX7aHstv2RGlA_uqxx0Z4VXtqIyCyty5Qijc-Q0pj9WI5nZSbUTI4mcaLz-QonS_118Irdob8WbOV_9Mrx2mZzIhL9ml5ghFweTXmfLCFMHY0cUyjHI83wtKFouI4p3yoyxcEiOmFd6ifVvPMAfo5PPqK8lgIp-Mbo13LXnwxPArtqWvGrDy7QLRtLuSLEvEXrnwyVDKJwiLYU87Xu3fnGLAY2znhgD9domJWwsbhnuAmBhLNJxlialO8JNLY_LNCycP16WzoiMtx00nOdZ7An6IxKF3c6k57WEprlAiYu6GxuCNkpCrLg";
 
     const sendMessage = () => {
       if (messageContent.value == "") return;
@@ -195,16 +215,17 @@ export default {
       classOfModal.value = "hidden";
     };
 
-    const createMessage = async (role, message) => {
-      await pushIntoArray(role, message);
+    const createMessage = async (role, message, cost) => {
+      await pushIntoArray(role, message, cost);
 
       scrollPage();
     };
 
-    const pushIntoArray = async (role, message) => {
+    const pushIntoArray = async (role, message, cost) => {
       messages.value.push({
         role: role,
         content: message,
+        cost: cost
       });
     };
 
@@ -236,10 +257,13 @@ export default {
         .then((response) => {
           return response;
         });
-
-      await createMessage("assistant", response);
+      
+      var newUsage = await getBalance();
+      var cost = newUsage - oldUsage.value;
+      await createMessage("assistant", response, cost);
       await createQuestion();
       scrollPage();
+      oldUsage.value = newUsage;
     }
 
     const createQuestion = async () => {
@@ -321,17 +345,70 @@ export default {
       }, 3000);
     };
 
+    const getBalance = async () => {
+      var url =
+        "https://api.openai.com/dashboard/billing/usage?start_date=2023-07-31&end_date=2023-09-04";
+      var method = "get";
+      var bearerSession = "Bearer " + sessionKey;
+      const {total_usage} = await fetch(url, {
+        method: method,
+        headers: {
+          "content-type": "application/json",
+          authorization: bearerSession,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          // oldUsage.value = response.total_usage / 100;
+          // return oldUsage.value;
+          return response;
+        });
+
+        return total_usage / 100;
+    };
+
+    const getSessionKey = async () => {
+      var url = "https://api.openai.com/dashboard/onboarding/login";
+      var method = "post";
+      await fetch(url, {
+        method: method,
+        headers: {
+          "content-type": "application/json",
+          authorization: bearerToken,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          sessionKey = response.user.session.sensitive_id;
+        });
+
+      oldUsage.value = await getBalance();
+      console.log(oldUsage.value);
+    };
+
+    onBeforeMount(() => {
+      getSessionKey();
+    });
+
     return {
       messages,
       sendMessage,
       createInformation,
       openModal,
       closeModal,
+      getBalance,
+      getSessionKey,
       classOfModal,
       messageContent,
       loadingType,
       info,
       loading,
+      balance,
+      oldUsage,
     };
   },
 };
