@@ -2,6 +2,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { FaissStore } from 'langchain/vectorstores/faiss'
 import { RetrievalQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
+import 'dotenv/config';
 
 const versionOne = async (req, res) => {
     const prompt = [{
@@ -26,7 +27,7 @@ const versionOne = async (req, res) => {
 
 
 const versionTwo = async (req, res) => {
-    
+
     // const loader = new TextLoader('output.txt')
     const { messages } = req.body;
     // const documents = await loader.load()
@@ -36,7 +37,7 @@ const versionTwo = async (req, res) => {
     // })
     // const docs = await text_splitter.splitDocuments(documents)
     const embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+        openAIApiKey: process.env.OPENAI_API_KEY, // In Node.js defaults to process.env.OPENAI_API_KEY
     });
     // const vectorstore = await FaissStore.fromDocuments(docs, embeddings)
     // await vectorstore.save(directory)
@@ -44,15 +45,20 @@ const versionTwo = async (req, res) => {
     const new_vectorstore = await FaissStore.load(directory, embeddings)
 
     const model = new ChatOpenAI({
-        openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+        openAIApiKey: process.env.OPENAI_API_KEY, // In Node.js defaults to process.env.OPENAI_API_KEY
     });
+
+    const template = `
+    If you cannot answer the question , please say 'Sry, I can't answer your question because lack of information'.
+    If you can answer the question , please give the answer no more than 30 words.
+    `
 
     const vectorStoreRetriver = new_vectorstore.asRetriever()
 
     const chain = RetrievalQAChain.fromLLM(model, vectorStoreRetriver)
 
     const re = await chain.call({
-        query: messages,
+        query: messages + template,
     });
 
     res.json({

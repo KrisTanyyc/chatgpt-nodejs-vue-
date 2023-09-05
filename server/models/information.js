@@ -8,7 +8,7 @@ const Information = sequelize.define('information', {
         allowNull: false,
         primaryKey: true
     },
-    content: Sequelize.STRING
+    content: Sequelize.TEXT
 });
 
 export default Information;

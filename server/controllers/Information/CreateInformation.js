@@ -6,6 +6,7 @@ import { TextLoader } from 'langchain/document_loaders/fs/text';
 import { CharacterTextSplitter } from 'langchain/text_splitter';
 import { FaissStore } from 'langchain/vectorstores/faiss'
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import 'dotenv/config';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -45,7 +46,7 @@ const postAddInformation = async (req, res, next) => {
         });
         const docs = await text_splitter.splitDocuments(documents);
         const embeddings = new OpenAIEmbeddings({
-            openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+            openAIApiKey: process.env.OPENAI_API_KEY, // In Node.js defaults to process.env.OPENAI_API_KEY
         });
 
         const vectorstore = await FaissStore.fromDocuments(docs, embeddings);
@@ -86,7 +87,7 @@ const postAddInformation = async (req, res, next) => {
         });
         const docs = await text_splitter.splitDocuments(documents);
         const embeddings = new OpenAIEmbeddings({
-            openAIApiKey: "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", // In Node.js defaults to process.env.OPENAI_API_KEY
+            openAIApiKey: process.env.OPENAI_API_KEY, // In Node.js defaults to process.env.OPENAI_API_KEY
         });
         const vectorstore = await FaissStore.fromDocuments(docs, embeddings);
         await vectorstore.save(directory);

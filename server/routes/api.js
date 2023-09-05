@@ -10,7 +10,7 @@ import { deleteInformation } from "../controllers/Information/DeleteInformation.
 const router = Router();
 
 //Chat
-router.post('/v1/chatgpt', versionOne);
+router.post('/v1/chatgpt', versionTwo);
 
 //Question
 router.get('/listQuestions', getAllQuestions);

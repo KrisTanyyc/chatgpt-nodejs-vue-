@@ -259,6 +259,8 @@ export default {
         });
       
       var newUsage = await getBalance();
+      console.log('newUsage',newUsage);
+      console.log('oldUsage', oldUsage.value);
       var cost = newUsage - oldUsage.value;
       await createMessage("assistant", response, cost);
       await createQuestion();
@@ -347,7 +349,7 @@ export default {
 
     const getBalance = async () => {
       var url =
-        "https://api.openai.com/dashboard/billing/usage?start_date=2023-07-31&end_date=2023-09-04";
+        "https://api.openai.com/dashboard/billing/usage?start_date=2023-07-31&end_date=2023-09-09";
       var method = "get";
       var bearerSession = "Bearer " + sessionKey;
       const {total_usage} = await fetch(url, {
@@ -387,6 +389,7 @@ export default {
         });
 
       oldUsage.value = await getBalance();
+      console.log(sessionKey);
       console.log(oldUsage.value);
     };
 
