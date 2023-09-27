@@ -6,8 +6,12 @@ import sequelize from './util/database.js';
 import UnsolveQuestion from './models/unsolveQuestion.js';
 import apiRoute from './routes/api.js'
 import Information from './models/information.js';
+import "web-streams-polyfill/es5";
+
 
 const app = express();
+ 
+
 
 app.use(morgan('tiny'));
 app.use(cors());

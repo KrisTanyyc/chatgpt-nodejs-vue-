@@ -194,8 +194,7 @@ export default {
     const oldUsage = ref(0);
     var sessionKey = "";
     var bearerToken =
-      "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJjaGlueWVlLnRhbkB5eWNhZHZpc29ycy5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZX0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJhdXRoMHw2NGM3MWMzOWRjYzVmYzRlYjk2NzY2ODgiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjkzMzgxNTI0LCJleHAiOjE2OTQ1OTExMjQsImF6cCI6IkRSaXZzbm0yTXU0MlQzS09wcWR0d0IzTll2aUhZendEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.hGvqCecIrgZ6LZa3xDHbVtHZsvrgy3_MRX7aHstv2RGlA_uqxx0Z4VXtqIyCyty5Qijc-Q0pj9WI5nZSbUTI4mcaLz-QonS_118Irdob8WbOV_9Mrx2mZzIhL9ml5ghFweTXmfLCFMHY0cUyjHI83wtKFouI4p3yoyxcEiOmFd6ifVvPMAfo5PPqK8lgIp-Mbo13LXnwxPArtqWvGrDy7QLRtLuSLEvEXrnwyVDKJwiLYU87Xu3fnGLAY2znhgD9domJWwsbhnuAmBhLNJxlialO8JNLY_LNCycP16WzoiMtx00nOdZ7An6IxKF3c6k57WEprlAiYu6GxuCNkpCrLg";
-
+      "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJjaGlueWVlLnRhbkB5eWNhZHZpc29ycy5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZX0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJhdXRoMHw2NGM3MWMzOWRjYzVmYzRlYjk2NzY2ODgiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjk0NjYwMTgzLCJleHAiOjE2OTU4Njk3ODMsImF6cCI6IkRSaXZzbm0yTXU0MlQzS09wcWR0d0IzTll2aUhZendEIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.QqcY0SgS3Yb_FgXQY83PMAM7wjA-qYsjfdkZwcYTtQmMv1KTBMUBuWbfH13n_Ua3hgTEd09eRw0Xwx-6mRZbopEpq0siWsQTasQHkXV0oFattGs70oIvKpCs5Qq_myS9O4N8b_sJ7L53ADwpi00f23ZT6tJHf2Dcd6COfQxa9x7zAgEV_P7MZEBROhxjy5bX-92WkPqqdwCZWlnOZNgGWuediGLpJ4Ksv7u-9N7aEqjYKtEbmz_rTXzT_Rr4V1riO8Wu95kDQ3f0ubbaO-mP4fVM1PMPsIGr2r5yLWe5HpaeYtLT32jEgZuus2xrFEsI8Mrckeyfx1QqDIybDVhPMA";
     const sendMessage = () => {
       if (messageContent.value == "") return;
       createMessage("user", messageContent.value);
@@ -225,7 +224,7 @@ export default {
       messages.value.push({
         role: role,
         content: message,
-        cost: cost
+        cost: cost,
       });
     };
 
@@ -257,10 +256,10 @@ export default {
         .then((response) => {
           return response;
         });
-      
+
       var newUsage = await getBalance();
-      console.log('newUsage',newUsage);
-      console.log('oldUsage', oldUsage.value);
+      console.log("newUsage", newUsage);
+      console.log("oldUsage", oldUsage.value);
       var cost = newUsage - oldUsage.value;
       await createMessage("assistant", response, cost);
       await createQuestion();
@@ -352,7 +351,7 @@ export default {
         "https://api.openai.com/dashboard/billing/usage?start_date=2023-07-31&end_date=2023-09-09";
       var method = "get";
       var bearerSession = "Bearer " + sessionKey;
-      const {total_usage} = await fetch(url, {
+      const { total_usage } = await fetch(url, {
         method: method,
         headers: {
           "content-type": "application/json",
@@ -368,7 +367,7 @@ export default {
           return response;
         });
 
-        return total_usage / 100;
+      return total_usage / 100;
     };
 
     const getSessionKey = async () => {
